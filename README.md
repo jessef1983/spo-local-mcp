@@ -4,7 +4,7 @@ A lightweight MCP (Model Context Protocol) server that exposes locally synced On
 
 ## Use Case
 
-When Tim has files synced locally via OneDrive desktop sync but needs Claude to read them from a different M365 tenant (e.g., cpsales.sharepoint.com synced locally), this MCP server bridges the gap by:
+When you have files synced locally via OneDrive desktop sync but need Claude to read them from a different M365 tenant (e.g., a different organizational unit or partner tenant synced locally), this MCP server bridges the gap by:
 1. Auto-discovering local OneDrive sync folders
 2. Allowing user selection of which folders to expose
 3. Providing file listing and reading capabilities via MCP
@@ -39,17 +39,17 @@ Example:
 
 Found 2 OneDrive folder(s):
 
-  1. C:\Users\jesse\OneDrive - Community Playthings
-  2. C:\Users\jesse\OneDrive - Sales
+  1. C:\Users\[user]\OneDrive - [Department A]
+  2. C:\Users\[user]\OneDrive - [Department B]
 
 Which folders would you like to include? (comma-separated numbers, or 'all')
 Example: 1,2  or  all
 > 2
 
 ✓ Selected 1 folder(s):
-  - C:\Users\jesse\OneDrive - Sales
+  - C:\Users\[user]\OneDrive - [Department B]
 
-✓ Config saved to C:\Users\jesse\.mcp-onedrive.json
+✓ Config saved to C:\Users\[user]\.mcp-onedrive.json
 ```
 
 ### Step 3: Add to Claude
@@ -109,13 +109,13 @@ Once configured, Claude will have access to:
 
 ## Configuration File
 
-The server reads from `~/.mcp-onedrive.json`:
+The configuration file reads from `~/.mcp-onedrive.json`:
 
 ```json
 {
   "enabled_folders": [
-    "C:\\Users\\jesse\\OneDrive - Community Playthings",
-    "C:\\Users\\jesse\\OneDrive - Sales"
+    "C:\\Users\\[user]\\OneDrive - [Department A]",
+    "C:\\Users\\[user]\\OneDrive - [Department B]"
   ],
   "max_depth": 3
 }
@@ -166,9 +166,9 @@ To reconfigure, either:
 
 ## Stop-Gap vs. Long-Term Solution
 
-This MCP server is a **temporary workaround** until proper multi-tenant app registration and OAuth setup is completed for the cpsales tenant.
+This MCP server is a **temporary workaround** until proper multi-tenant app registration and OAuth setup is completed for additional tenants.
 
-**Long-term plan:** Register a second M365 app in the cpsales tenant and configure a dedicated Claude M365 connector for that tenant. This will provide:
+**Long-term plan:** Register a second M365 app in the target tenant and configure a dedicated Claude M365 connector for that tenant. This will provide:
 - Full cloud-based access (no local sync required)
 - Automatic updates to files in SharePoint
 - Better performance for large document sets
