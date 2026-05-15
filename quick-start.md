@@ -1,28 +1,18 @@
-# SPO Local MCP
+# Quick Start
 
-Native Windows setup (no Python required):
+1. Download ZIP:
+https://github.com/jessef1983/spo-local-mcp/archive/refs/heads/main.zip
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\mcp-onedrive-local.ps1 -Setup
-```
+2. Extract to a local folder, for example:
+`C:\tools\spo-local-mcp`
 
-Then add this to `%APPDATA%\Claude\claude_desktop_config.json`:
+3. Open Claude Code in that folder.
 
-```json
-{
-  "mcpServers": {
-    "onedrive-local-files": {
-      "command": "powershell",
-      "args": [
-        "-NoProfile",
-        "-ExecutionPolicy",
-        "Bypass",
-        "-File",
-        "C:\\path\\to\\spo-local-mcp\\mcp-onedrive-local.ps1"
-      ]
-    }
-  }
-}
-```
+4. Ask Claude Code:
+`Please run setup for this repo.`
 
-Restart Claude Desktop.
+5. Select which OneDrive folders you want in scope.
+
+6. Restart Claude Desktop.
+
+For advanced setup and config details, see `CLAUDE.md`.

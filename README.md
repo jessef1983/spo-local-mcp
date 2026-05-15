@@ -1,80 +1,33 @@
-# OneDrive Local File MCP Server
+# SPO Local MCP
 
-A lightweight MCP server that exposes locally synced OneDrive files to Claude, without cloud API auth.
+Simple local connector so Claude can read files already synced to your Windows machine from OneDrive/SharePoint.
 
-## Use Case
+## Best For
 
-Use this when files are synced locally from OneDrive/SharePoint but a cloud connector cannot reach a second tenant directly.
+Use this when cloud connector access is limited, but the files are already synced locally.
 
-## Setup (Windows Default)
+## Non-Technical Setup (Windows)
 
-### Step 1: Run interactive setup
+1. Download ZIP:
+https://github.com/jessef1983/spo-local-mcp/archive/refs/heads/main.zip
 
-Windows already includes PowerShell, so no runtime install is required.
+2. Extract it somewhere easy, for example:
+`C:\tools\spo-local-mcp`
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\mcp-onedrive-local.ps1 -Setup
-```
+3. Open Claude Code in that folder.
 
-The setup command:
-1. Auto-discovers OneDrive folders under your user profile.
-2. Asks which folders to expose.
-3. Saves config to `%USERPROFILE%\.mcp-onedrive.json`.
+4. Ask Claude Code:
+`Please run setup for this repo.`
 
-### Step 2: Add to Claude Desktop
+5. During setup, choose which OneDrive folders are in scope.
 
-Edit `%APPDATA%\Claude\claude_desktop_config.json` and add:
+6. Restart Claude Desktop.
 
-```json
-{
-  "mcpServers": {
-    "onedrive-local-files": {
-      "command": "powershell",
-      "args": [
-        "-NoProfile",
-        "-ExecutionPolicy",
-        "Bypass",
-        "-File",
-        "C:\\path\\to\\mcp-onedrive-local.ps1"
-      ],
-      "disabled": false
-    }
-  }
-}
-```
+## What You Get
 
-Then restart Claude Desktop.
+- Claude can list files in your selected local OneDrive folders.
+- Claude can read text-based files from those folders.
 
-## Methods exposed
+## Technical Details
 
-The server accepts JSON-RPC over stdio:
-- `list_folders`
-- `list_files` with optional `folder`
-- `read_file` with required `path`
-
-## Config file
-
-Stored at `%USERPROFILE%\.mcp-onedrive.json`:
-
-```json
-{
-  "enabled_folders": [
-    "C:\\Users\\[user]\\OneDrive - [OrgA]"
-  ],
-  "max_depth": 3
-}
-```
-
-## Optional Python variant
-
-A Python script is included for teams that prefer Python:
-
-```powershell
-python .\mcp-onedrive-local.py --setup
-```
-
-## Notes
-
-- Local files only.
-- OneDrive sync must be active for target folders.
-- This is a stop-gap until full multi-tenant cloud connector setup is complete.
+If you want full command/config details, see `CLAUDE.md`.
